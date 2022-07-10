@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
         parentFragmentManager.beginTransaction()
         parentFragmentManager.commit {
             setReorderingAllowed(true)
-            replace<AppLauncherFragment>(R.id.fragment_container)
+            replace<AppLauncherFragment>(R.id.fragment_container, "AppLauncher")
         }
     }
 }

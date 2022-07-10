@@ -3,6 +3,7 @@ package com.joebarker.haelauncher
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -22,6 +23,10 @@ class AppLauncherAdapter(private val context: Context, private val appList: List
     }
 
     private fun open(app: App) {
+        if(app.packageName == null) {
+            Toast.makeText(context, "Sorry! Something went wrong.", Toast.LENGTH_SHORT)
+            return
+        }
         val intent = context.packageManager.getLaunchIntentForPackage(app.packageName)
         context.startActivity(intent)
     }

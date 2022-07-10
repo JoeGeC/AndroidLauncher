@@ -6,6 +6,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AppViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-    val icon = view.findViewById<ImageView>(R.id.app_icon)
-    val label = view.findViewById<TextView>(R.id.app_label)
+    val icon: ImageView = view.findViewById(R.id.app_icon)
+    val label: TextView = view.findViewById(R.id.app_label)
 }
