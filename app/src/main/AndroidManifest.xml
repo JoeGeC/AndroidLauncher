@@ -3,12 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.joebarker.haelauncher">
 
+    <uses-permission android:name="android.permission.BIND_APPWIDGET" />
+
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent>
     </queries>
+
 
     <application
         android:allowBackup="true"
@@ -21,7 +24,7 @@
         android:theme="@style/Theme.HAELauncher"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,13 +1,11 @@
-package com.joebarker.haelauncher
+package com.joebarker.haelauncher.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import com.joebarker.haelauncher.ui.applauncher.AppLauncherFragment
 import com.joebarker.haelauncher.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.joebarker.haelauncher.HomeFragment"
+        android:name="com.joebarker.haelauncher.ui.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/nav_app_launcher"
-        android:name="com.joebarker.haelauncher.AppLauncherFragment"
+        android:name="com.joebarker.haelauncher.ui.applauncher.AppLauncherFragment"
         android:label="@string/app_launcher"
         tools:layout="@layout/fragment_home">
         <action

@@ -1,13 +1,16 @@
-package com.joebarker.haelauncher
+package com.joebarker.haelauncher.ui.applauncher
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.joebarker.haelauncher.R
 
 
-class AppLauncherAdapter(private val context: Context, private val appList: List<App>) : RecyclerView.Adapter<AppViewHolder>() {
+class AppLauncherAdapter(private val context: Context) : RecyclerView.Adapter<AppViewHolder>() {
+
+    private var appList: List<App> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -32,5 +35,11 @@ class AppLauncherAdapter(private val context: Context, private val appList: List
     }
 
     override fun getItemCount(): Int = appList.size
+
+    fun updateItems(newAppList: List<App>?) {
+        if (newAppList == null) return
+        appList = newAppList
+        notifyDataSetChanged()
+    }
 
 }

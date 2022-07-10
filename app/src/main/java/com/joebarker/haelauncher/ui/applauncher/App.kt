@@ -1,4 +1,4 @@
-package com.joebarker.haelauncher
+package com.joebarker.haelauncher.ui.applauncher
 
 import android.graphics.drawable.Drawable
 
