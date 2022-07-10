@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.joebarker.haelauncher.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_home_to_nav_app_launcher"
+            app:destination="@id/nav_app_launcher" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_app_launcher"
+        android:name="com.joebarker.haelauncher.AppLauncherFragment"
+        android:label="@string/app_launcher"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_app_launcher_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+</navigation>
