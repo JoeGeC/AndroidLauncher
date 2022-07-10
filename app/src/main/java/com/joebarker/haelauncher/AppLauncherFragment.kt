@@ -19,8 +19,8 @@ class AppLauncherFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAppLauncherBinding.inflate(layoutInflater)
-        binding.root.adapter = AppLauncherAdapter(requireContext(), getAppsList())
-        binding.root.layoutManager = GridLayoutManager(requireContext(), 4)
+        binding.appList.adapter = AppLauncherAdapter(requireContext(), getAppsList())
+        binding.appList.layoutManager = GridLayoutManager(requireContext(), 4)
         return binding.root
     }
 
