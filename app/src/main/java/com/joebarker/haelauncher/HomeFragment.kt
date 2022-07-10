@@ -21,10 +21,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun openAppLauncherFragment() {
-        parentFragmentManager.beginTransaction()
-        parentFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace<AppLauncherFragment>(R.id.fragment_container, "AppLauncher")
-        }
+        AppLauncherFragment().show(parentFragmentManager, AppLauncherFragment.TAG)
     }
 }
