@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     private fun getWidgetInfo(appWidgets: MutableList<AppWidgetProviderInfo>): AppWidgetProviderInfo? {
         appWidgets.forEach { widget ->
             if (widget.provider.packageName == "com.joebarker.haelauncher"
-                && widget.provider.className == "com.joebarker.haelauncher.WeatherWidget"
+                && widget.provider.className == "com.joebarker.haelauncher.widgets.WeatherWidget"
             ) {
                 return widget
             }
