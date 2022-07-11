@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class WeatherWidgetViewHolder(
+class WeatherWidgetViewModel(
     private val useCase: WeatherUseCase
 ): ViewModel() {
     val weatherInfo: LiveData<WeatherInfo> get() = _weatherInfo
@@ -24,10 +24,6 @@ class WeatherWidgetViewHolder(
             _weatherInfo.postValue(useCase.getWeatherInfoFor(city))
             _isLoading.postValue(false)
         }
-    }
-
-    companion object{
-        const val BEIJING = "Beijing"
     }
 
 }
