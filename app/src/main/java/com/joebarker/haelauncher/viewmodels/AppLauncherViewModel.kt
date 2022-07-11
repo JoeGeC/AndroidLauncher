@@ -13,18 +13,18 @@ import kotlinx.coroutines.launch
 
 class AppLauncherViewModel(private val packageManager: PackageManager): ViewModel() {
 
+    fun getAppList(): LiveData<List<App>> = appList
+
     private val appList: MutableLiveData<List<App>> by lazy {
         MutableLiveData<List<App>>().also {
             loadAppList()
         }
     }
 
-    fun getAppList(): LiveData<List<App>> = appList
-
     private fun loadAppList() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = mutableListOf<App>()
-            for (appInfo in getAllApps()) {
+            for (appInfo in getAllInstalledApps()) {
                 val app = App(
                     appInfo.loadLabel(packageManager),
                     appInfo.activityInfo.packageName,
@@ -36,7 +36,7 @@ class AppLauncherViewModel(private val packageManager: PackageManager): ViewMode
         }
     }
 
-    private fun getAllApps(): MutableList<ResolveInfo> {
+    private fun getAllInstalledApps(): MutableList<ResolveInfo> {
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         return packageManager.queryIntentActivities(intent, 0)
