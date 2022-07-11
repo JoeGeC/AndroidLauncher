@@ -5,7 +5,7 @@ import com.joebarker.domain.entities.WeatherInfo
 
 class WeatherUseCaseImpl(private val data: WeatherData) {
 
-    fun getWeatherInfoFor(city: String): WeatherInfo =
+    fun getWeatherInfoFor(city: String): WeatherInfo? =
         data.getWeatherInfoFor(city)
 
 }

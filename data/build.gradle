@@ -1,17 +1,47 @@
 plugins {
-    id 'kotlin'
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 29
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.retrofit2:retrofit-mock:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    testImplementation "com.squareup.retrofit2:retrofit-mock:2.9.0"
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.0")
     testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
-    implementation project(path: ':domain')
-}
 
-tasks.test {
-    useJUnitPlatform()
+    implementation project(path: ':domain')
 }
