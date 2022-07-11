@@ -1,6 +1,7 @@
 package com.joebarker.data
 
 import com.joebarker.domain.entities.WeatherInfo
+import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.junit.jupiter.api.Assertions.*
@@ -32,7 +33,8 @@ class WeatherDataShould {
         }
         val weatherData = WeatherDataImpl(remoteCalls)
         val expected = WeatherInfo(expectedCity, expectedCountry, expectedTemperature, expectedDescription)
-        assertEquals(expected, weatherData.getWeatherInfoFor(passedInCity))
+        val result = runBlocking { weatherData.getWeatherInfoFor(passedInCity) }
+        assertEquals(expected, result)
     }
 
     @Test
@@ -43,7 +45,9 @@ class WeatherDataShould {
             on { retrieveWeatherInfo(passedInCity) } doReturn(Calls.response(response))
         }
         val weatherData = WeatherDataImpl(remoteCalls)
-        assertThrows(Exception::class.java) { weatherData.getWeatherInfoFor(passedInCity) }
+        assertThrows(Exception::class.java) {
+            runBlocking { weatherData.getWeatherInfoFor(passedInCity) }
+        }
     }
 
 }

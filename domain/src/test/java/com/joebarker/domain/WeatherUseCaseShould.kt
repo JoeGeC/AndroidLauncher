@@ -3,6 +3,7 @@ package com.joebarker.domain
 import com.joebarker.domain.boundary.data.WeatherData
 import com.joebarker.domain.entities.WeatherInfo
 import com.joebarker.domain.usecases.WeatherUseCaseImpl
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doReturn
@@ -24,6 +25,7 @@ class WeatherUseCaseShould {
             onBlocking { getWeatherInfoFor(city) } doReturn (weatherInfo)
         }
         val useCase = WeatherUseCaseImpl(data)
-        assertEquals(weatherInfo, useCase.getWeatherInfoFor(city))
+        val result = runBlocking { useCase.getWeatherInfoFor(city) }
+        assertEquals(weatherInfo, result)
     }
 }

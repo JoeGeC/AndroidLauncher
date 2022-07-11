@@ -9,6 +9,7 @@ import com.joebarker.domain.entities.WeatherInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class WeatherWidgetViewModel(
     private val useCase: WeatherUseCase
@@ -21,7 +22,9 @@ class WeatherWidgetViewModel(
     fun retrieveWeatherInfoFor(city: String, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         viewModelScope.launch(dispatcher) {
             _isLoading.postValue(true)
-            _weatherInfo.postValue(useCase.getWeatherInfoFor(city))
+            withContext(dispatcher){
+                _weatherInfo.postValue(useCase.getWeatherInfoFor(city))
+            }
             _isLoading.postValue(false)
         }
     }

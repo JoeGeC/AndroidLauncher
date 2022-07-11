@@ -1,54 +1,55 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.HAELauncher.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.HAELauncher.AppWidgetContainer"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:theme="@style/Theme.HAELauncher.AppWidgetContainer">
 
     <ProgressBar
         android:id="@+id/loading_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/country"
-        android:text="Beijing"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="Beijing" />
 
     <TextView
         android:id="@+id/country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="China"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="China" />
 
     <TextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/city"
-        android:text="Sunny intervals and light winds"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/black"
         android:textSize="14sp"
-        android:ellipsize="end"
-        android:maxLines="1"/>
+        tools:text="Sunny intervals and light winds" />
 
     <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:text="5"
         android:textColor="#de921f"
         android:textSize="32sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="5" />
 
 </RelativeLayout>

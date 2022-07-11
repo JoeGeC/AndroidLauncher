@@ -16,3 +16,4 @@ rootProject.name = "HAELauncher"
 include ':app'
 include ':data'
 include ':domain'
+include ':config'

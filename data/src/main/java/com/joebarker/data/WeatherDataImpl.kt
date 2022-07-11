@@ -19,7 +19,7 @@ class WeatherDataImpl(
             .build()
     }
 
-    override fun getWeatherInfoFor(city: String): WeatherInfo? {
+    override suspend fun getWeatherInfoFor(city: String): WeatherInfo? {
         val response = remoteCalls.retrieveWeatherInfo(city).execute()
         if (!response.isSuccessful)
             throw Exception()
