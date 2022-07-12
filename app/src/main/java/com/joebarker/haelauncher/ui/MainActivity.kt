@@ -13,8 +13,8 @@ import com.joebarker.haelauncher.ui.applauncher.AppLauncherFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var appWidgetHost: AppWidgetHost
-    private lateinit var appWidgetManager: AppWidgetManager
+    private lateinit var widgetHost: AppWidgetHost
+    private lateinit var widgetManager: AppWidgetManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +25,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        appWidgetHost = AppWidgetHost(this, 1)
-        appWidgetManager = AppWidgetManager.getInstance(this)
-        appWidgetHost.startListening()
+        widgetHost = AppWidgetHost(this, 1)
+        widgetManager = AppWidgetManager.getInstance(this)
+        widgetHost.startListening()
         createWidget()
     }
 
     override fun onStop() {
         super.onStop()
-        appWidgetHost.stopListening()
+        widgetHost.stopListening()
     }
 
     private fun openAppLauncherFragment() {
@@ -41,11 +41,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createWidget() {
-        val appWidgetId = appWidgetHost.allocateAppWidgetId()
-        val widgetInfo = getWidgetInfo(appWidgetManager.installedProviders)
-        val widgetView = appWidgetHost.createView(this, appWidgetId, widgetInfo)
+        val appWidgetId = widgetHost.allocateAppWidgetId()
+        val widgetInfo = getWidgetInfo(widgetManager.installedProviders)
+        val widgetView = widgetHost.createView(this, appWidgetId, widgetInfo)
         widgetView?.setAppWidget(appWidgetId, widgetInfo)
         binding.widgetContainer.addView(widgetView)
+        requestWidgetPermission(appWidgetId, widgetInfo)
+    }
+
+    private fun requestWidgetPermission(appWidgetId: Int, widgetInfo: AppWidgetProviderInfo?) {
+        val allowed = widgetManager.bindAppWidgetIdIfAllowed(appWidgetId, widgetInfo?.provider)
+        if (allowed) return
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_BIND)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER, widgetInfo?.provider)
+        startActivityForResult(intent, 0)
     }
 
     private fun getWidgetInfo(appWidgets: MutableList<AppWidgetProviderInfo>): AppWidgetProviderInfo? {

@@ -27,7 +27,7 @@ class WeatherWidget : AppWidgetProvider() {
             if(it) views.setViewVisibility(R.id.loading_spinner, View.VISIBLE)
             else views.setViewVisibility(R.id.loading_spinner, View.GONE)
         }
-        viewModel.retrieveWeatherInfoFor("beijing")
+//        viewModel.retrieveWeatherInfoFor("beijing")
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
