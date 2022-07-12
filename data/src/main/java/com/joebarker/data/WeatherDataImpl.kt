@@ -11,7 +11,7 @@ class WeatherDataImpl(
 ): WeatherData{
 
     companion object {
-        private const val BASE_URL: String = "http://weather.bfsah.com/"
+        private const val BASE_URL: String = "https://weather.bfsah.com/"
 
         internal val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)

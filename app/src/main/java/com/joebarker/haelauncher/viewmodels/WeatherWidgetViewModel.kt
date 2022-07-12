@@ -16,16 +16,17 @@ class WeatherWidgetViewModel(
 ): ViewModel() {
     val weatherInfo: LiveData<WeatherInfo> get() = _weatherInfo
     private val _weatherInfo = MutableLiveData<WeatherInfo>()
-    val isLoading: LiveData<Boolean> get() = _isLoading
+    val isLoading: MutableLiveData<Boolean> get() = _isLoading
     private val _isLoading = MutableLiveData(false)
 
     fun retrieveWeatherInfoFor(city: String, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         viewModelScope.launch(dispatcher) {
-            _isLoading.postValue(true)
-            withContext(dispatcher){
-                _weatherInfo.postValue(useCase.getWeatherInfoFor(city))
+            val newWeatherInfo = useCase.getWeatherInfoFor(city)
+            withContext(Dispatchers.Main){
+                _isLoading.postValue(true)
+                _weatherInfo.postValue(newWeatherInfo)
+                _isLoading.postValue(false)
             }
-            _isLoading.postValue(false)
         }
     }
 

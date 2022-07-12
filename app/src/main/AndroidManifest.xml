@@ -4,6 +4,7 @@
     package="com.joebarker.haelauncher">
 
     <uses-permission android:name="android.permission.BIND_APPWIDGET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
         <intent>

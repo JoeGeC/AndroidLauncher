@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_app_icon.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/weather_widget.xml" value="0.175" />
+        <entry key="app/src/main/res/layout/weather_widget_page.xml" value="0.23143115942028986" />
         <entry key="app/src/main/res/layout/widget_weather.xml" value="0.2246376811594203" />
       </map>
     </option>
