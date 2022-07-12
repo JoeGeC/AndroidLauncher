@@ -23,58 +23,99 @@ class WeatherWidget : AppWidgetProvider() {
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val views = RemoteViews(context.packageName, R.layout.weather_widget)
-        viewModel.isLoading.observeForever {
-            if(it) views.setViewVisibility(R.id.loading_spinner, View.VISIBLE)
-            else views.setViewVisibility(R.id.loading_spinner, View.GONE)
-            appWidgetManager.updateAppWidget(appWidgetId, views)
-        }
-        setWeatherInfoObserver(views) { appWidgetManager.updateAppWidget(appWidgetId, views) }
+        val updateViews = { appWidgetManager.updateAppWidget(appWidgetId, views) }
         viewModel.retrieveWeatherInfoFor(cities[currentCityNumber])
-        views.setOnClickPendingIntent(R.id.page_number, getPendingSelfIntent(context))
-        appWidgetManager.updateAppWidget(appWidgetId, views)
+        setObservers(views, updateViews)
+        views.setOnClickPendingIntent(R.id.forward_button, getPendingSelfIntent(context, R.id.forward_button))
+        views.setOnClickPendingIntent(R.id.back_button, getPendingSelfIntent(context, R.id.back_button))
+        updateViews()
     }
 
-    private fun setWeatherInfoObserver(views: RemoteViews, update: () -> Unit) {
+    private fun setObservers(views: RemoteViews, updateViews: () -> Unit) {
+        setErrorObserver(views)
+        setLoadingObserver(views, updateViews)
+        setWeatherInfoObserver(views)
+    }
+
+    private fun setErrorObserver(views: RemoteViews) {
+        viewModel.isError.observeForever {
+            if (it) {
+                views.setViewVisibility(R.id.error, View.VISIBLE)
+                views.setViewVisibility(R.id.main_content, View.GONE)
+            }
+            else {
+                views.setViewVisibility(R.id.error, View.GONE)
+                views.setViewVisibility(R.id.main_content, View.VISIBLE)
+            }
+        }
+    }
+
+    private fun setLoadingObserver(views: RemoteViews, updateViews: () -> Unit) {
+        viewModel.isLoading.observeForever {
+            if (it) views.setViewVisibility(R.id.loading_spinner, View.VISIBLE)
+            else views.setViewVisibility(R.id.loading_spinner, View.GONE)
+            views.setTextViewText(R.id.page_number, "${currentCityNumber + 1}/${cities.count()}")
+            updateViews()
+        }
+    }
+
+    private fun setWeatherInfoObserver(views: RemoteViews) {
         viewModel.weatherInfo.observeForever {
             views.setTextViewText(R.id.city, it.city)
             views.setTextViewText(R.id.country, it.country)
             views.setTextViewText(R.id.description, it.description)
             views.setTextViewText(R.id.temperature, it.temperature.toString())
-            views.setTextViewText(R.id.page_number, "${currentCityNumber + 1}/${cities.count()}")
-            update()
         }
     }
 
-    private fun getPendingSelfIntent(context: Context): PendingIntent? {
+    private fun getPendingSelfIntent(context: Context, action: Int): PendingIntent? {
         val intent = Intent(context, javaClass)
-        intent.action = nextCityAction
+        intent.action = action.toString()
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        if(intent.action == nextCityAction) showNextCity(context)
+        if(intent.action == R.id.forward_button.toString())
+            showNextCityInfo(context)
+        else if(intent.action == R.id.back_button.toString())
+            showPreviousCityInfo(context)
     }
 
-    private fun showNextCity(context: Context) {
-        incrementCurrentCity()
-        viewModel.retrieveWeatherInfoFor(cities[currentCityNumber])
+    private fun showNextCityInfo(context: Context) {
+        incrementCurrentCityNumber()
+        showCityInfo(context)
+    }
+
+    private fun showCityInfo(context: Context) {
         val views = RemoteViews(context.packageName, R.layout.weather_widget)
-        setWeatherInfoObserver(views) {
+        viewModel.retrieveWeatherInfoFor(cities[currentCityNumber])
+        setObservers(views) {
             AppWidgetManager.getInstance(context).updateAppWidget(
-                ComponentName(context, WeatherWidget::class.java), views)
+                ComponentName(context, WeatherWidget::class.java), views
+            )
         }
     }
 
-    private fun incrementCurrentCity() {
+    private fun incrementCurrentCityNumber() {
         currentCityNumber++
-        if(currentCityNumber >= cities.size)
+        if(currentCityNumber >= cities.count())
             currentCityNumber = 0
+    }
+
+    private fun showPreviousCityInfo(context: Context) {
+        decrementCurrentCityNumber()
+        showCityInfo(context)
+    }
+
+    private fun decrementCurrentCityNumber() {
+        currentCityNumber--
+        if(currentCityNumber < 0)
+            currentCityNumber = cities.count() - 1
     }
 
     companion object{
         private val cities = listOf("beijing", "berlin", "cardiff", "edinburgh", "london", "nottingham")
-        private const val nextCityAction = "NextCity"
         private var currentCityNumber = 0
     }
 

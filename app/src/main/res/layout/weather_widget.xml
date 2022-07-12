@@ -1,10 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weather_widget"
     style="@style/Widget.HAELauncher.AppWidget.Container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:theme="@style/Theme.HAELauncher.AppWidgetContainer"
-    android:id="@+id/weather_widget">
+    android:layout_height="100dp"
+    android:theme="@style/Theme.HAELauncher.AppWidgetContainer">
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
     <ProgressBar
         android:id="@+id/loading_spinner"
@@ -13,45 +23,53 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/country"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:text="Beijing" />
+        android:layout_toStartOf="@id/back_button"
+        android:layout_marginEnd="16dp">
 
-    <TextView
-        android:id="@+id/country"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        tools:text="China" />
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/country"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Beijing" />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/city"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        tools:text="Sunny intervals and light winds" />
+        <TextView
+            android:id="@+id/country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="China" />
 
-    <TextView
-        android:id="@+id/temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/page_number"
-        android:textColor="#de921f"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        tools:text="5"
-        android:layout_marginEnd="16dp"/>
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/city"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Sunny intervals and light winds" />
+
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="#de921f"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            tools:text="5" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/page_number"
@@ -61,5 +79,27 @@
         android:textColor="@color/black"
         android:textSize="12sp"
         tools:text="5/5" />
+
+    <TextView
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/forward_button"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:text="@string/back"
+        android:paddingHorizontal="8dp"/>
+
+    <TextView
+        android:id="@+id/forward_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:text="@string/forward"
+        android:paddingHorizontal="8dp"/>
 
 </RelativeLayout>

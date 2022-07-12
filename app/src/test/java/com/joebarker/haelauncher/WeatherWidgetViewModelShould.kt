@@ -2,7 +2,6 @@ package com.joebarker.haelauncher
 
 import com.joebarker.domain.boundary.output.WeatherUseCase
 import com.joebarker.domain.entities.WeatherInfo
-import com.joebarker.domain.usecases.WeatherUseCaseImpl
 import com.joebarker.haelauncher.viewmodels.WeatherWidgetViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -23,7 +22,7 @@ class WeatherWidgetViewModelShould {
             "Sunny intervals and light winds"
         )
         val useCase = mock<WeatherUseCase> {
-            onBlocking { getWeatherInfoFor(city) }.doReturn(weatherInfo)
+            onBlocking { getWeatherInfoFor(city) } doReturn(weatherInfo)
         }
         val viewModel = WeatherWidgetViewModel(useCase)
         runBlocking {

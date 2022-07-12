@@ -7,4 +7,7 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="weather_widget_description">Weather widget</string>
+    <string name="error">Error</string>
+    <string name="back"><![CDATA[<]]></string>
+    <string name="forward"><![CDATA[>]]></string>
 </resources>
