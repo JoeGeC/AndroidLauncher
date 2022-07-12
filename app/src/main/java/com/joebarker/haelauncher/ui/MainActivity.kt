@@ -21,14 +21,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.appLauncherIcon.setOnClickListener { openAppLauncherFragment() }
+        widgetHost = AppWidgetHost(this, 1)
+        widgetManager = AppWidgetManager.getInstance(this)
+        createWidget()
     }
 
     override fun onStart() {
         super.onStart()
-        widgetHost = AppWidgetHost(this, 1)
-        widgetManager = AppWidgetManager.getInstance(this)
         widgetHost.startListening()
-        createWidget()
     }
 
     override fun onStop() {
