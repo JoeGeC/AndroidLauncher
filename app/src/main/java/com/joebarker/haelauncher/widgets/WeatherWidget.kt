@@ -64,7 +64,7 @@ class WeatherWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.city, it.city)
             views.setTextViewText(R.id.country, it.country)
             views.setTextViewText(R.id.description, it.description)
-            views.setTextViewText(R.id.temperature, it.temperature.toString())
+            views.setTextViewText(R.id.temperature, "${it.temperature}°")
         }
     }
 
