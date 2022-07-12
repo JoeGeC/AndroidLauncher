@@ -21,10 +21,9 @@ class WeatherWidgetViewModel(
 
     fun retrieveWeatherInfoFor(city: String, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         viewModelScope.launch(dispatcher) {
-            val newWeatherInfo = useCase.getWeatherInfoFor(city)
-            withContext(Dispatchers.Main){
+            withContext(dispatcher){
                 _isLoading.postValue(true)
-                _weatherInfo.postValue(newWeatherInfo)
+                _weatherInfo.postValue(useCase.getWeatherInfoFor(city))
                 _isLoading.postValue(false)
             }
         }

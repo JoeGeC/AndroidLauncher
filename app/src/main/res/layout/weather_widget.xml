@@ -3,8 +3,8 @@
     style="@style/Widget.HAELauncher.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:theme="@style/Theme.HAELauncher.AppWidgetContainer">
+    android:theme="@style/Theme.HAELauncher.AppWidgetContainer"
+    android:id="@+id/weather_widget">
 
     <ProgressBar
         android:id="@+id/loading_spinner"
