@@ -1,6 +1,8 @@
 package com.joebarker.domain
 
 import com.joebarker.domain.boundary.data.WeatherData
+import com.joebarker.domain.entities.Either
+import com.joebarker.domain.entities.ErrorEntity
 import com.joebarker.domain.entities.WeatherInfo
 import com.joebarker.domain.usecases.WeatherUseCaseImpl
 import kotlinx.coroutines.runBlocking
@@ -10,22 +12,32 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 class WeatherUseCaseShould {
+    private val weatherInfo = WeatherInfo(
+        "Beijing",
+        "China",
+        5,
+        "Sunny intervals and light winds"
+    )
+    private val cityToGet = "beijing"
 
     @Test
     fun returnWeatherInfoFromData() {
-        val weatherInfo = WeatherInfo(
-            "Beijing",
-            "China",
-            5,
-            "Sunny intervals and light winds"
-        )
+        val expected = Either.Success(weatherInfo)
+        assertResultFromData(expected)
+    }
 
-        val city = "beijing"
+    @Test
+    fun returnFailureFromData() {
+        val expected = Either.Failure(ErrorEntity(404, "City not found"))
+        assertResultFromData(expected)
+    }
+
+    private fun assertResultFromData(expected: Either<WeatherInfo, ErrorEntity>) {
         val data = mock<WeatherData> {
-            onBlocking { getWeatherInfoFor(city) } doReturn (weatherInfo)
+            onBlocking { getWeatherInfoFor(cityToGet) } doReturn (expected)
         }
         val useCase = WeatherUseCaseImpl(data)
-        val result = runBlocking { useCase.getWeatherInfoFor(city) }
-        assertEquals(weatherInfo, result)
+        val result = runBlocking { useCase.getWeatherInfoFor(cityToGet) }
+        assertEquals(expected, result)
     }
 }
