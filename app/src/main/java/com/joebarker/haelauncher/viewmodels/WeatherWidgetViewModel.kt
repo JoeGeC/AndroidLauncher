@@ -2,6 +2,7 @@ package com.joebarker.haelauncher.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joebarker.domain.boundary.output.WeatherUseCase
@@ -10,6 +11,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 class WeatherWidgetViewModel(
     private val useCase: WeatherUseCase
@@ -45,4 +48,14 @@ class WeatherWidgetViewModel(
         _isError.postValue(true)
     }
 
+}
+
+fun <T> LiveData<T>.observeForTesting(block: () -> Unit) {
+    val observer = Observer<T> { }
+    try {
+        observeForever(observer)
+        block()
+    } finally {
+        removeObserver(observer)
+    }
 }
