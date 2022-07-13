@@ -8,8 +8,8 @@ import android.os.BatteryManager
 import android.widget.RemoteViews
 import com.joebarker.haelauncher.R
 
-
 class BatteryWidget : AppWidgetProvider() {
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds)
             updateAppWidget(context, appWidgetManager, appWidgetId)

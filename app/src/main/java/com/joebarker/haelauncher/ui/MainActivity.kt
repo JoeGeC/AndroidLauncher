@@ -9,14 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.joebarker.haelauncher.databinding.ActivityMainBinding
 import com.joebarker.haelauncher.ui.applauncher.AppLauncherFragment
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var widgetHost: AppWidgetHost
     private lateinit var widgetManager: AppWidgetManager
-    private val weatherWidget = "WeatherWidget"
-    private val batteryWidget = "BatteryWidget"
+    private val widgets = listOf("WeatherWidget", "BatteryWidget", "ClockWidget")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding.appLauncherIcon.setOnClickListener { openAppLauncherFragment() }
         widgetHost = AppWidgetHost(this, 1)
         widgetManager = AppWidgetManager.getInstance(this)
-        createWidget(weatherWidget)
-        createWidget(batteryWidget)
+        widgets.forEach { createWidget(it) }
     }
 
     override fun onStart() {

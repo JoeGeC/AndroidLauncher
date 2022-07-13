@@ -12,4 +12,5 @@
     <string name="forward"><![CDATA[>]]></string>
     <string name="app_widget_description">This is an app widget description</string>
     <string name="battery_widget">Battery Widget</string>
+    <string name="clock_widget">Clock Widget</string>
 </resources>

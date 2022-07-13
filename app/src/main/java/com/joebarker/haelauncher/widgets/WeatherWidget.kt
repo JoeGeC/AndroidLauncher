@@ -12,7 +12,6 @@ import com.joebarker.config.Config
 import com.joebarker.haelauncher.R
 import com.joebarker.haelauncher.viewmodels.WeatherWidgetViewModel
 
-
 class WeatherWidget : AppWidgetProvider() {
     private val viewModel = WeatherWidgetViewModel(Config().weatherUseCase)
 
