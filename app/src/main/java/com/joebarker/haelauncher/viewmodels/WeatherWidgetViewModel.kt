@@ -20,6 +20,7 @@ class WeatherWidgetViewModel(
     private val _isLoading = MutableLiveData(false)
     val isError: LiveData<Boolean> get() = _isError
     private val _isError = MutableLiveData(false)
+    var errorMessage = ""
 
     fun retrieveWeatherInfoFor(city: String, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         viewModelScope.launch(dispatcher) {
@@ -27,13 +28,21 @@ class WeatherWidgetViewModel(
                 _isError.postValue(false)
                 _isLoading.postValue(true)
                 try{
-                    _weatherInfo.postValue(useCase.getWeatherInfoFor(city))
+                    val weatherInfo = useCase.getWeatherInfoFor(city)
+                    if(weatherInfo.isSuccess)
+                        _weatherInfo.postValue(weatherInfo.body)
+                    else showError(weatherInfo.errorBody.error.message)
                 } catch (e: Exception){
-                    _isError.postValue(true)
+                    showError("Error")
                 }
                 _isLoading.postValue(false)
             }
         }
+    }
+
+    private fun showError(newErrorMessage: String) {
+        errorMessage = newErrorMessage
+        _isError.postValue(true)
     }
 
 }

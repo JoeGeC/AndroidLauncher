@@ -3,6 +3,7 @@ package com.joebarker.data
 import com.joebarker.domain.boundary.data.WeatherData
 import com.joebarker.domain.entities.Either
 import com.joebarker.domain.entities.ErrorEntity
+import com.joebarker.domain.entities.ErrorMessage
 import com.joebarker.domain.entities.WeatherInfo
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,7 +32,7 @@ class WeatherDataImpl(
                 Either.Failure(error)
             }
         } catch(exception: Exception){
-            val error = ErrorEntity(exception.localizedMessage ?: "Error")
+            val error = ErrorEntity(ErrorMessage(exception.localizedMessage ?: "Error"))
             Either.Failure(error)
         }
     }

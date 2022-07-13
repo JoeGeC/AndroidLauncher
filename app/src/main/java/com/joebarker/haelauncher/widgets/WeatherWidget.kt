@@ -37,8 +37,9 @@ class WeatherWidget : AppWidgetProvider() {
     }
 
     private fun setErrorObserver(views: RemoteViews) {
-        viewModel.isError.observeForever {
-            if (it) {
+        viewModel.isError.observeForever { isError ->
+            if (isError) {
+                views.setTextViewText(R.id.error, viewModel.errorMessage)
                 views.setViewVisibility(R.id.error, View.VISIBLE)
                 views.setViewVisibility(R.id.main_content, View.GONE)
             }
@@ -50,8 +51,8 @@ class WeatherWidget : AppWidgetProvider() {
     }
 
     private fun setLoadingObserver(views: RemoteViews, updateViews: () -> Unit) {
-        viewModel.isLoading.observeForever {
-            if (it) views.setViewVisibility(R.id.loading_spinner, View.VISIBLE)
+        viewModel.isLoading.observeForever { isLoading ->
+            if (isLoading) views.setViewVisibility(R.id.loading_spinner, View.VISIBLE)
             else views.setViewVisibility(R.id.loading_spinner, View.GONE)
             views.setTextViewText(R.id.page_number, "${currentCityNumber + 1}/${cities.count()}")
             updateViews()

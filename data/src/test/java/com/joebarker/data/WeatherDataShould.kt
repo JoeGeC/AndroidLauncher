@@ -2,6 +2,7 @@ package com.joebarker.data
 
 import com.joebarker.domain.entities.Either
 import com.joebarker.domain.entities.ErrorEntity
+import com.joebarker.domain.entities.ErrorMessage
 import com.joebarker.domain.entities.WeatherInfo
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
@@ -21,8 +22,10 @@ class WeatherDataShould {
     private val expectedTemperature = 5
     private val errorMessage = "Not found"
     private val errorJson = "{\n" +
-            "    \"code\": 404,\n" +
-            "    \"message\": \"$errorMessage\"\n" +
+            "    \"error\": {\n" +
+            "        \"code\": 404,\n" +
+            "        \"message\": \"$errorMessage\"\n" +
+            "    }" +
             "}"
 
     @Test
@@ -44,7 +47,7 @@ class WeatherDataShould {
             on { retrieveWeatherInfo(cityToGet) } doReturn(Calls.response(response))
         }
         val weatherData = WeatherDataImpl(remoteCalls)
-        val expected = Either.Failure(ErrorEntity(errorMessage))
+        val expected = Either.Failure(ErrorEntity(ErrorMessage(errorMessage)))
         val result = runBlocking { weatherData.getWeatherInfoFor(cityToGet) }
         assertEquals(expected, result)
     }
