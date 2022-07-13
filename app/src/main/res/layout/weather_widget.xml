@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/error"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         android:textSize="24sp"
         android:visibility="gone" />
 
@@ -39,7 +39,7 @@
             android:layout_toStartOf="@id/temperature"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/text"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="Beijing" />
@@ -52,7 +52,7 @@
             android:layout_toStartOf="@id/temperature"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/text"
             android:textSize="16sp"
             tools:text="China" />
 
@@ -63,7 +63,7 @@
             android:layout_below="@id/city"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/text"
             android:textSize="14sp"
             tools:text="Sunny intervals and light winds" />
 
@@ -84,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         android:textSize="12sp"
         tools:text="5/5" />
 
@@ -96,7 +96,7 @@
         android:layout_toStartOf="@id/forward_button"
         android:paddingHorizontal="8dp"
         android:text="@string/back"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         android:textSize="50sp" />
 
     <TextView
@@ -107,7 +107,7 @@
         android:layout_alignParentBottom="true"
         android:paddingHorizontal="8dp"
         android:text="@string/forward"
-        android:textColor="@color/black"
+        android:textColor="@color/text"
         android:textSize="50sp" />
 
 </RelativeLayout>

@@ -22,7 +22,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/text"
         tools:text="Google Chrome Long" />
 
 </LinearLayout>
