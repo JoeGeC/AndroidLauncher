@@ -10,4 +10,6 @@
     <string name="error">Error</string>
     <string name="back"><![CDATA[<]]></string>
     <string name="forward"><![CDATA[>]]></string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="battery_widget">Battery Widget</string>
 </resources>
