@@ -28,7 +28,7 @@ class WeatherUseCaseShould {
 
     @Test
     fun returnFailureFromData() {
-        val expected = Either.Failure(ErrorEntity(404, "City not found"))
+        val expected = Either.Failure(ErrorEntity("City not found"))
         assertResultFromData(expected)
     }
 

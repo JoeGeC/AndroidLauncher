@@ -1,6 +1,8 @@
 package com.joebarker.data
 
 import com.joebarker.domain.boundary.data.WeatherData
+import com.joebarker.domain.entities.Either
+import com.joebarker.domain.entities.ErrorEntity
 import com.joebarker.domain.entities.WeatherInfo
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,10 +21,18 @@ class WeatherDataImpl(
             .build()
     }
 
-    override suspend fun getWeatherInfoFor(city: String): WeatherInfo? {
-        val response = remoteCalls.retrieveWeatherInfo(city).execute()
-        if (!response.isSuccessful)
-            throw Exception()
-        return response.body()?.convert()
+    override suspend fun getWeatherInfoFor(city: String): Either<WeatherInfo?, ErrorEntity> {
+        return try{
+            val result = remoteCalls.retrieveWeatherInfo(city).execute()
+            return if (result.isSuccessful) {
+                Either.Success(result.body()?.convert())
+            } else {
+                val error = JsonAdapter.convertToError(result)
+                Either.Failure(error)
+            }
+        } catch(exception: Exception){
+            val error = ErrorEntity(exception.localizedMessage ?: "Error")
+            Either.Failure(error)
+        }
     }
 }
