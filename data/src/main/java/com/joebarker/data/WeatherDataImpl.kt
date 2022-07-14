@@ -5,35 +5,32 @@ import com.joebarker.domain.entities.Either
 import com.joebarker.domain.entities.ErrorEntity
 import com.joebarker.domain.entities.ErrorMessage
 import com.joebarker.domain.entities.WeatherInfo
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.Exception
+import org.json.JSONException
+import org.json.JSONObject
 
 class WeatherDataImpl(
-    private val remoteCalls: WeatherRemoteCalls = retrofit.create(WeatherRemoteCalls::class.java)
-): WeatherData{
-
-    companion object {
-        private const val BASE_URL: String = "https://weather.bfsah.com/"
-
-        internal val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+    private val contentRetriever: ContentRetriever = HttpJsonRetriever()
+) : WeatherData {
+    private val baseUrl = "https://weather.bfsah.com/"
+    private val errorMessage = "Not found"
+    private val cityJsonLabel = "city"
+    private val countryJsonLabel = "country"
+    private val temperatureJsonLabel = "temperature"
+    private val descriptionJsonLabel = "description"
 
     override suspend fun getWeatherInfoFor(city: String): Either<WeatherInfo?, ErrorEntity> {
-        return try{
-            val result = remoteCalls.retrieveWeatherInfo(city).execute()
-            return if (result.isSuccessful) {
-                Either.Success(result.body()?.convert())
-            } else {
-                val error = JsonAdapter.convertToError(result)
-                Either.Failure(error)
-            }
-        } catch(exception: Exception){
-            val error = ErrorEntity(ErrorMessage(exception.localizedMessage ?: "Error"))
-            Either.Failure(error)
+        val data = contentRetriever.getContentFromUrl("$baseUrl$city")
+        if (data.isEmpty()) return Either.Failure(ErrorEntity(ErrorMessage(errorMessage)))
+        return try {
+            val jsonObject = JSONObject(data)
+            Either.Success(
+                WeatherInfo(
+                    jsonObject.getString(cityJsonLabel),
+                    jsonObject.getString(countryJsonLabel),
+                    jsonObject.getInt(temperatureJsonLabel),
+                    jsonObject.getString(descriptionJsonLabel)))
+        } catch (e: JSONException) {
+            Either.Failure(ErrorEntity(ErrorMessage(errorMessage)))
         }
     }
 }

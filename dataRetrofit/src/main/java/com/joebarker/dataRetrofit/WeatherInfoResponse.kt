@@ -1,4 +1,4 @@
-package com.joebarker.data
+package com.joebarker.dataRetrofit
 
 import com.joebarker.domain.entities.WeatherInfo
 

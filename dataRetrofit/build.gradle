@@ -27,7 +27,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
     testOptions {
         unitTests.all {
             useJUnitPlatform()
@@ -37,10 +36,13 @@ android {
 }
 
 dependencies {
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.0")
+    testImplementation "com.squareup.retrofit2:retrofit-mock:2.9.0"
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.0")
-    testImplementation 'org.json:json:20180813'
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.0")
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
 
     implementation project(path: ':domain')
 }

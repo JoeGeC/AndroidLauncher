@@ -1,4 +1,4 @@
-package com.joebarker.data
+package com.joebarker.dataRetrofit
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
