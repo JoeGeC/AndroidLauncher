@@ -1,12 +1,18 @@
-package com.joebarker.data
+package com.joebarker.dataRetrofit
 
 import com.joebarker.domain.entities.Either
 import com.joebarker.domain.entities.ErrorEntity
 import com.joebarker.domain.entities.ErrorMessage
 import com.joebarker.domain.entities.WeatherInfo
 import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType
+import okhttp3.ResponseBody
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import retrofit2.Response
+import retrofit2.mock.Calls
 
 class WeatherDataShould {
     private val cityToGet = "city"
@@ -21,12 +27,14 @@ class WeatherDataShould {
             "        \"message\": \"$errorMessage\"\n" +
             "    }" +
             "}"
-    private val responseJson = "{\n\t\"city\": \"$expectedCity\",\n\t\"country\": \"$expectedCountry\",\n\t\"temperature\": $expectedTemperature, \n\t\"description\": \"$expectedDescription\"\n}\n"
 
     @Test
     fun retrieveWeatherInfoFromApi() {
-        val contentRetrieverMock = ContentRetrieverMock(responseJson)
-        val weatherData = WeatherDataImpl(contentRetrieverMock)
+        val response = WeatherInfoResponse(expectedCity, expectedCountry, expectedTemperature, expectedDescription)
+        val remoteCalls = mock<WeatherRemoteCalls> {
+            on { retrieveWeatherInfo(cityToGet) } doReturn(Calls.response(response))
+        }
+        val weatherData = WeatherDataImpl(remoteCalls)
         val expected = Either.Success(WeatherInfo(expectedCity, expectedCountry, expectedTemperature, expectedDescription))
         val result = runBlocking { weatherData.getWeatherInfoFor(cityToGet) }
         assertEquals(expected, result)
@@ -34,8 +42,11 @@ class WeatherDataShould {
 
     @Test
     fun returnErrorWhenErrorResponse() {
-        val contentRetrieverMock = ContentRetrieverMock(errorJson)
-        val weatherData = WeatherDataImpl(contentRetrieverMock)
+        val response = Response.error<WeatherInfoResponse>(404, ResponseBody.create(MediaType.parse("application/json"), errorJson))
+        val remoteCalls = mock<WeatherRemoteCalls> {
+            on { retrieveWeatherInfo(cityToGet) } doReturn(Calls.response(response))
+        }
+        val weatherData = WeatherDataImpl(remoteCalls)
         val expected = Either.Failure(ErrorEntity(ErrorMessage(errorMessage)))
         val result = runBlocking { weatherData.getWeatherInfoFor(cityToGet) }
         assertEquals(expected, result)
